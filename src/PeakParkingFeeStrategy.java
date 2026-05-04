@@ -1,7 +1,8 @@
 public class PeakParkingFeeStrategy implements ParkingFeeStrategy {
-    private final Integer PEAK_RATE = 50;
+    private static final int PEAK_RATE = 50;
+
     @Override
     public Integer calculateParkingFee(Ticket ticket, Integer baseParkingFee) {
-        return baseParkingFee + (baseParkingFee * PEAK_RATE);
+        return baseParkingFee + (baseParkingFee * PEAK_RATE / 100);
     }
 }

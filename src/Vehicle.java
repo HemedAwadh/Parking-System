@@ -15,12 +15,10 @@ public class Vehicle {
     }
 
     public String getLicenceNumber() {
-
         return licenceNumber;
     }
 
     public void setLicenceNumber(String licenceNumber) {
-
         this.licenceNumber = licenceNumber;
     }
 
@@ -29,7 +27,6 @@ public class Vehicle {
     }
 
     public void setSize(VehicleSize size) {
-
         this.size = size;
     }
 }

@@ -1,41 +1,18 @@
-import java.math.BigDecimal;
-
 public class BaseParkingFeeStrategy implements ParkingFeeStrategy {
-    private final Integer SMALL_VEHICLE_RATE = 20;
-    private final Integer MEDIUM_VEHICLE_RATE = 30;
-    private final Integer LARGE_VEHICLE_RATE = 40;
+    private static final int SMALL_VEHICLE_RATE = 20;
+    private static final int MEDIUM_VEHICLE_RATE = 30;
+    private static final int LARGE_VEHICLE_RATE = 40;
 
     @Override
     public Integer calculateParkingFee(Ticket ticket, Integer baseParkingFee) {
+        int rate;
         if (ticket.getVehicle().getSize() == VehicleSize.SMALL) {
-            return baseParkingFee + (baseParkingFee * SMALL_VEHICLE_RATE / 100);
+            rate = SMALL_VEHICLE_RATE;
         } else if (ticket.getVehicle().getSize() == VehicleSize.MEDIUM) {
-            return baseParkingFee + (baseParkingFee * MEDIUM_VEHICLE_RATE / 100);
+            rate = MEDIUM_VEHICLE_RATE;
         } else {
-            return baseParkingFee + (baseParkingFee * LARGE_VEHICLE_RATE / 100);
+            rate = LARGE_VEHICLE_RATE;
         }
+        return baseParkingFee + (baseParkingFee * rate / 100);
     }
-
-//
-//    /// implement using switch
-//    @Override
-//    public Integer calculateParkingFee(Ticket ticket, Integer baseParkingFee) {
-//        int rate;
-//        switch (ticket.getVehicle().getSize()) {
-//            case SMALL:
-//                rate = SMALL_VEHICLE_RATE;
-//                break;
-//            case MEDIUM:
-//                rate = MEDIUM_VEHICLE_RATE;
-//                break;
-//            case LARGE:
-//            default:
-//                rate = LARGE_VEHICLE_RATE;
-//                break;
-//        }
-//
-//        return baseParkingFee + (baseParkingFee * rate / 100);
-//    }
-
-
 }

@@ -3,67 +3,57 @@ import java.util.List;
 import java.util.Map;
 
 public class ParkingManager {
-    private Map<ParkingSpotSize, List<ParkingSpot>> emptyParkingSpots;
-    private Map<Vehicle,ParkingSpot> vehicleParkingSpots;
-    private final Map<ParkingSpot,Vehicle> spotToVehicleMap;
+    private final Map<VehicleSize, List<ParkingSpot>> emptyParkingSpots;
+    private final Map<Vehicle, ParkingSpot> vehicleParkingSpots;
+    private final Map<ParkingSpot, Vehicle> spotToVehicleMap;
 
-    public ParkingManager(Map<ParkingSpotSize, List<ParkingSpot>> emptyParkingSpots, Map<Vehicle, ParkingSpot> vehicleParkingSpots, Map<ParkingSpot, Vehicle> spotToVehicleMap) {
+    public ParkingManager(Map<VehicleSize, List<ParkingSpot>> emptyParkingSpots) {
         this.emptyParkingSpots = emptyParkingSpots;
-        this.spotToVehicleMap = spotToVehicleMap;
         this.vehicleParkingSpots = new HashMap<>();
+        this.spotToVehicleMap = new HashMap<>();
     }
-
 
     public ParkingSpot getParkingSpot(Vehicle vehicle) {
         VehicleSize vehicleSize = vehicle.getSize();
-
-        // Start looking for the smallest spot that can fit the vehicle
         for (VehicleSize size : VehicleSize.values()) {
             if (size.ordinal() >= vehicleSize.ordinal()) {
-                List<ParkingSpot> parkingSpots = emptyParkingSpots.get(size);
-                for (ParkingSpot parkingSpot : parkingSpots) {
-                    if (!parkingSpot.isOccupied()){
-                        return parkingSpot; //Return the first available parking spot
+                List<ParkingSpot> spots = emptyParkingSpots.get(size);
+                if (spots != null) {
+                    for (ParkingSpot spot : spots) {
+                        if (!spot.isOccupied()) {
+                            return spot;
+                        }
                     }
-
                 }
             }
-
         }
-        return null; //No suitable spot found
-
+        return null;
     }
 
     public ParkingSpot parkVehicle(Vehicle vehicle) {
-        ParkingSpot parkingSpot = getParkingSpot(vehicle);
-        if (!parkingSpot.isOccupied()) {
-            parkingSpot.occupy(vehicle);
-            vehicleParkingSpots.put(vehicle,parkingSpot);
-            spotToVehicleMap.put(parkingSpot,vehicle);
-            List<ParkingSpot> spots = emptyParkingSpots.get(parkingSpot.getSize());
-            spots.remove(parkingSpot);
-            return parkingSpot; //Park successful
-        }
-
-        return null; // No spot found for this vehicle
+        ParkingSpot spot = getParkingSpot(vehicle);
+        if (spot == null) return null;
+        spot.occupy(vehicle);
+        vehicleParkingSpots.put(vehicle, spot);
+        spotToVehicleMap.put(spot, vehicle);
+        emptyParkingSpots.get(spot.getAcceptedSize()).remove(spot);
+        return spot;
     }
 
     public void unParkVehicle(Vehicle vehicle) {
-        ParkingSpot parkingSpot = vehicleParkingSpots.remove(vehicle);
-        if (parkingSpot != null) {
-            spotToVehicleMap.remove(parkingSpot);
-            parkingSpot.vacate();
-            emptyParkingSpots.get(parkingSpot.getSize()).add(parkingSpot);
+        ParkingSpot spot = vehicleParkingSpots.remove(vehicle);
+        if (spot != null) {
+            spotToVehicleMap.remove(spot);
+            spot.vacate();
+            emptyParkingSpots.get(spot.getAcceptedSize()).add(spot);
         }
     }
-    //Find Vehicle's parking spot
-    public ParkingSpot findVehicleByParkingSpot(Vehicle vehicle) {
+
+    public ParkingSpot findSpotByVehicle(Vehicle vehicle) {
         return vehicleParkingSpots.get(vehicle);
     }
 
-   //Find which vehicle is parked in a spot
-    public Vehicle findSpotByVehicle(ParkingSpot parkingSpot) {
-        return spotToVehicleMap.get(parkingSpot);
+    public Vehicle findVehicleBySpot(ParkingSpot spot) {
+        return spotToVehicleMap.get(spot);
     }
-
 }

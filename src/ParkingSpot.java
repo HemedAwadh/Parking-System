@@ -1,45 +1,34 @@
 public class ParkingSpot {
-    private int parkingSpotNumber;
-    private ParkingSpotSize size;
-    private boolean isOccupied;
+    private final int spotNumber;
+    private final VehicleSize acceptedSize;
+    private Vehicle vehicle;
+
+    public ParkingSpot(int spotNumber, VehicleSize acceptedSize) {
+        this.spotNumber = spotNumber;
+        this.acceptedSize = acceptedSize;
+    }
 
     public boolean isOccupied() {
-        return isOccupied;
+        return vehicle != null;
     }
 
     public void occupy(Vehicle vehicle) {
-        isOccupied = true;
-        System.out.println("Occupied Vehicle: " + vehicle.getLicenceNumber());
+        if (this.vehicle == null) {
+            this.vehicle = vehicle;
+        } else {
+            System.out.println("Spot " + spotNumber + " is already occupied");
+        }
     }
 
-    public void vacate () {
-        isOccupied = false;
+    public void vacate() {
+        this.vehicle = null;
     }
 
-    public ParkingSpot() {
+    public int getSpotNumber() {
+        return spotNumber;
     }
 
-    public ParkingSpot(int parkingSpotNumber, ParkingSpotSize size, boolean isOccupied) {
-        this.parkingSpotNumber = parkingSpotNumber;
-        this.size = size;
-        this.isOccupied = isOccupied;
-    }
-
-    public int getParkingSpotNumber() {
-
-        return parkingSpotNumber;
-    }
-
-    public void setParkingSpotNumber(int parkingSpotNumber) {
-
-        this.parkingSpotNumber = parkingSpotNumber;
-    }
-
-    public ParkingSpotSize getSize() {
-        return size;
-    }
-
-    public void setSize(ParkingSpotSize size) {
-        this.size = size;
+    public VehicleSize getAcceptedSize() {
+        return acceptedSize;
     }
 }
