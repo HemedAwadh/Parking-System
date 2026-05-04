@@ -4,6 +4,10 @@ public class Reversal {
     public static void main(String[] args) {
         /// Given string "Hello World" reverse the characters
 
+        String name = "strops";
+        String rev = new StringBuilder(name).reverse().toString();
+        System.out.println("Reversed String is "+ rev);
+
         String a = "Hello world";
         String[] items = a.split("");
 
