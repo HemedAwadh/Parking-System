@@ -117,9 +117,9 @@ public class ParkingManager {
      * @return the vehicle's current {@link ParkingSpot}, or {@code null} if not parked
      */
     public ParkingSpot findSpotByVehicle(Vehicle vehicle) {
+
         return vehicleParkingSpots.get(vehicle);
     }
-
     /**
      * Looks up the vehicle currently occupying the given spot.
      *
@@ -127,6 +127,7 @@ public class ParkingManager {
      * @return the {@link Vehicle} in that spot, or {@code null} if the spot is empty
      */
     public Vehicle findVehicleBySpot(ParkingSpot spot) {
+
         return spotToVehicleMap.get(spot);
     }
 }

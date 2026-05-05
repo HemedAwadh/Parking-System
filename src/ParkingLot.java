@@ -1,5 +1,4 @@
 import java.time.LocalDateTime;
-
 /**
  * Public façade for the parking lot system.
  *

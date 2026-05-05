@@ -38,7 +38,8 @@ public class Main {
         Scanner input = new Scanner(System.in);
         System.out.println("Is it peak hour?(Yes/No): ");
 
-        boolean peakHours = input.nextBoolean();
+        String peakInput = input.nextLine();
+        boolean peakHours = peakInput.equalsIgnoreCase("Yes") || peakInput.equalsIgnoreCase("No");
 
         ParkingLot lot = buildParkingLot(peakHours);
 
@@ -53,6 +54,7 @@ public class Main {
         int vehicles = input.nextInt();
         input.nextLine();
         List<Ticket> tickets = new ArrayList<>();
+
         for (int i = 0; i < vehicles; i++) {
             System.out.println("\n Vehicle #" + (i + 1) + ":");
 
@@ -65,7 +67,14 @@ public class Main {
             System.out.println("Enter vehicle size(SMALL/MEDIUM/LARGE): )");
             String size = input.nextLine().toUpperCase();
 
-            VehicleSize vehicleSize = VehicleSize.valueOf(size);
+            VehicleSize vehicleSize ;
+            try {
+                vehicleSize = VehicleSize.valueOf(size.toUpperCase());
+
+            }catch (IllegalArgumentException e){
+                System.out.println("Invalid Vehicle Size.");
+                continue;
+            }
 
             Vehicle vehicle;
             switch (type) {
@@ -88,17 +97,6 @@ public class Main {
 
 
         }
-//
-//
-//        Motorcycle motorcycle = new Motorcycle("KCA 001A", VehicleSize.SMALL);
-//        Car        saloon     = new Car("KBZ 234B", VehicleSize.MEDIUM);
-//        Truck      lorry      = new Truck("KDA 567C", VehicleSize.LARGE);
-//        Car        suv        = new Car("KDD 890D", VehicleSize.MEDIUM);
-//
-//        Ticket motoTicket   = enterAndPrint(lot, motorcycle);
-//        Ticket saloonTicket = enterAndPrint(lot, saloon);
-//        Ticket lorryTicket  = enterAndPrint(lot, lorry);
-//        Ticket suvTicket    = enterAndPrint(lot, suv);
 
         // ------------------------------------------------------------------ //
         //  2. Vehicle exit
@@ -141,61 +139,6 @@ public class Main {
         input.close();
 
 
-
-
-
-
-//
-//
-//
-//
-//        exitAndPrint(lot, motoTicket);
-//        exitAndPrint(lot, saloonTicket);
-//
-//        // ------------------------------------------------------------------ //
-//        //  3. Edge cases
-//        // ------------------------------------------------------------------ //
-//        printSection("Edge Cases");
-//
-//        // 3a. Double exit — same ticket used again
-//        int duplicate = lot.leaveVehicle(motoTicket);
-//        System.out.printf("  Double-exit %-12s : %s%n",
-//                motorcycle.getLicenceNumber(),
-//                duplicate == -1 ? "REJECTED (ticket already closed)" : "KES " + duplicate);
-//
-//        // 3b. Null ticket
-//        int nullResult = lot.leaveVehicle(null);
-//        System.out.printf("  Null ticket exit        : %s%n",
-//                nullResult == -1 ? "REJECTED (invalid ticket)" : "KES " + nullResult);
-//
-//        // 3c. Lot full for a given size — fill compact spots then try one more
-//        Motorcycle moto2 = new Motorcycle("KBB 002A", VehicleSize.SMALL);
-//        Motorcycle moto3 = new Motorcycle("KBB 003A", VehicleSize.SMALL);
-//        // Spots 1 & 2 are free again (motorcycle exited); park two more to fill them
-//        Ticket fill1 = lot.enterVehicle(moto2);
-//        Ticket fill2 = lot.enterVehicle(moto3);
-//        // Now all SMALL spots are taken — a third motorcycle will spill into MEDIUM
-//        Motorcycle moto4    = new Motorcycle("KBB 004A", VehicleSize.SMALL);
-//        Ticket     spillover = lot.enterVehicle(moto4);
-//        System.out.printf("  Compact slots full, moto4 entry : %s%n",
-//                spillover == null
-//                        ? "REJECTED (no spot available)"
-//                        : "Allocated spot " + spillover.getParkingSpot().getSpotNumber()
-//                          + " (size=" + spillover.getParkingSpot().getAcceptedSize() + ")");
-//
-//        // ------------------------------------------------------------------ //
-//        //  4. Summary — vehicles still in the lot
-//        // ------------------------------------------------------------------ //
-//        printSection("Still Parked");
-//
-//        printStillParked(lorryTicket);
-//        printStillParked(suvTicket);
-//        printStillParked(fill1);
-//        printStillParked(fill2);
-//        printStillParked(spillover);
-//
-//        System.out.println();
-//        System.out.println("----------------------------------------------");
     }
 
     // ------------------------------------------------------------------ //
@@ -236,10 +179,7 @@ public class Main {
             strategies.add(new PeakParkingFeeStrategy());
         }
 
-        return new ParkingLot(
-                new ParkingManager(spots),
-                new ParkingFeeCalculator(strategies)
-        );
+        return new ParkingLot(new ParkingManager(spots), new ParkingFeeCalculator(strategies));
     }
 
     /**
