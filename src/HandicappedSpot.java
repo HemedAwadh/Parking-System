@@ -1,38 +1,21 @@
+/**
+ * A reserved parking spot for vehicles with disability permits.
+ *
+ * <p>Physically equivalent to a {@link RegularSpot} in size — it accepts
+ * {@link VehicleSize#MEDIUM} vehicles. All state and behaviour is inherited
+ * from {@link ParkingSpot}.
+ *
+ * <p>Access control (permit verification) is outside the scope of this class
+ * and should be enforced at the {@link ParkingLot} entry point.
+ */
 public class HandicappedSpot extends ParkingSpot {
-    private int spotNumber;
-    private Vehicle vehicle;
 
+    /**
+     * Creates a handicapped spot with the given spot number.
+     *
+     * @param spotNumber unique identifier for this spot within the lot
+     */
     public HandicappedSpot(int spotNumber) {
-        this.spotNumber = spotNumber;
-        this.vehicle = null;
-    }
-
-    @Override
-    public int getSpotNumber() {
-        return spotNumber;
-    }
-
-    @Override
-    public boolean isAvailable() {
-        return vehicle == null;
-    }
-
-    @Override
-    public void occupy(Vehicle vehicle) {
-        if (isAvailable()) {
-            this.vehicle = vehicle;
-        } else {
-            // Spot is already occupied.
-        }
-    }
-
-    @Override
-    public void vacate() {
-        this.vehicle = null;
-    }
-
-    @Override
-    public VehicleSize getSize() {
-        return VehicleSize.MEDIUM;
+        super(spotNumber, VehicleSize.MEDIUM);
     }
 }
