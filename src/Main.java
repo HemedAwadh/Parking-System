@@ -1,4 +1,8 @@
+import javax.swing.*;
+import java.io.Serializable;
 import java.util.*;
+import java.util.function.*;
+
 
 /**
  * Application entry point and demonstration driver for the Parking System.
@@ -32,9 +36,12 @@ import java.util.*;
  *   MEDIUM + base + peak = 195
  * </pre>
  */
+
+
 public class Main {
 
     public static void main(String[] args) {
+
         Scanner input = new Scanner(System.in);
         System.out.println("Is it peak hour?(Yes/No): ");
 
@@ -122,6 +129,8 @@ public class Main {
                 System.out.println("No ticket found!....");
             }else  {
                 exitAndPrint(lot,found);
+                System.out.println("\n Vehicle exited successfully.Application ending...");
+                break;
             }
 
         }
