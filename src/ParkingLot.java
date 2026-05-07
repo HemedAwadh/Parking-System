@@ -40,6 +40,10 @@ public class ParkingLot {
         this.parkingFeeCalculator = parkingFeeCalculator;
     }
 
+    public ParkingManager getParkingManager() {
+        return parkingManager;
+    }
+
     /**
      * Processes a vehicle's entry into the parking lot.
      *

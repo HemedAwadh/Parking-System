@@ -50,6 +50,11 @@ public class Main {
 
         ParkingLot lot = buildParkingLot(peakHours);
 
+        int smallLots = lot.getParkingManager().getEmptyParkingSpots().get(VehicleSize.SMALL).size();
+        int mediumLots = lot.getParkingManager().getEmptyParkingSpots().get(VehicleSize.MEDIUM).size();
+        int largeLots = lot.getParkingManager().getEmptyParkingSpots().get(VehicleSize.LARGE).size();
+        int totalSpots = smallLots + mediumLots + largeLots;
+
         printBanner("PARKING SYSTEM DEMO");
 
         // ------------------------------------------------------------------ //
@@ -60,6 +65,10 @@ public class Main {
         System.out.println("Enter number of vehicles:");
         int vehicles = input.nextInt();
         input.nextLine();
+
+        //Check input of number of vehicles to be parked
+        if(vehicles <= totalSpots) {
+
         List<Ticket> tickets = new ArrayList<>();
 
         for (int i = 0; i < vehicles; i++) {
@@ -147,6 +156,9 @@ public class Main {
         System.out.println("\n----------------------------------------------");
         input.close();
 
+        }else{
+            System.out.println("ERROR: Parking unavailable: Parking spots are full!");
+        }
 
     }
 
@@ -169,17 +181,20 @@ public class Main {
         Map<VehicleSize, List<ParkingSpot>> spots = new HashMap<>();
         spots.put(VehicleSize.SMALL, new ArrayList<>(List.of(
                 new CompactSpot(1),
-                new CompactSpot(2)
+                new CompactSpot(2),
+                new CompactSpot(3),
+                new CompactSpot(4)
         )));
         spots.put(VehicleSize.MEDIUM, new ArrayList<>(List.of(
-                new RegularSpot(3),
-                new RegularSpot(4),
-                new HandicappedSpot(5)
+                new RegularSpot(5),
+                new RegularSpot(6),
+                new RegularSpot(7),
+                new HandicappedSpot(8)
         )));
         spots.put(VehicleSize.LARGE, new ArrayList<>(List.of(
-                new OversizedSpot(6),
-                new OversizedSpot(7)
-        )));
+                new OversizedSpot(9),
+                new OversizedSpot(10))));
+
 
         // -- Fee strategies --
         List<ParkingFeeStrategy> strategies = new ArrayList<>();

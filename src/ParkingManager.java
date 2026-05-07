@@ -25,6 +25,18 @@ public class ParkingManager {
     private final Map<Vehicle, ParkingSpot> vehicleParkingSpots;
     private final Map<ParkingSpot, Vehicle> spotToVehicleMap;
 
+    public Map<VehicleSize, List<ParkingSpot>> getEmptyParkingSpots() {
+        return emptyParkingSpots;
+    }
+
+    public Map<Vehicle, ParkingSpot> getVehicleParkingSpots() {
+        return vehicleParkingSpots;
+    }
+
+    public Map<ParkingSpot, Vehicle> getSpotToVehicleMap() {
+        return spotToVehicleMap;
+    }
+
     /**
      * Creates a ParkingManager with a pre-populated map of available spots.
      *
